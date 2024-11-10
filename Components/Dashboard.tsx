@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import SalesDashboard from "./SalesDashboard";
 
 const DashboardPage = () => {
-  const [activeTab, setActiveTab] = useState("settings");
+  const [activeTab, setActiveTab] = useState("charts");
 
   return (
-    <div className="min-h-screen w-full bg-revvyBlack text-revvyBlack p-4">
-
+    <div className="min-h-screen w-full bg-revvyBlack text-revvyBlack p-4 md:p-8">
+      {/* Header */}
       <div className="flex items-center justify-between bg-revvyBlack text-white p-4 rounded-md mb-6">
         <h1 className="text-2xl font-light">Dashboard</h1>
         <div className="flex items-center gap-4">
@@ -18,50 +19,30 @@ const DashboardPage = () => {
         </div>
       </div>
 
+      {/* Tabs */}
       <div className="flex flex-wrap gap-2 justify-start mb-4">
-        <button
-          className={`py-2 px-4 rounded-md ${
-            activeTab === "settings"
-              ? "bg-revvyBlack text-revvyGreen"
-              : "text-revvyGreen border border-revvyGreen"
-          }`}
-          onClick={() => setActiveTab("settings")}
-        >
-          Settings
-        </button>
-        <button
-          className={`py-2 px-4 rounded-md ${
-            activeTab === "ai-recommendations"
-              ? "bg-revvyBlack text-white"
-              : "text-revvyGreen border border-revvyGreen"
-          }`}
-          onClick={() => setActiveTab("ai-recommendations")}
-        >
-          AI Recommendations
-        </button>
-        <button
-          className={`py-2 px-4 rounded-md ${
-            activeTab === "trends"
-              ? "bg-revvyBlack text-white"
-              : "text-revvyGreen border border-revvyGreen"
-          }`}
-          onClick={() => setActiveTab("trends")}
-        >
-          Trends
-        </button>
-        <button
-          className={`py-2 px-4 rounded-md ${
-            activeTab === "insights"
-              ? "bg-revvyBlack text-white"
-              : "text-revvyGreen border border-revvyGreen"
-          }`}
-          onClick={() => setActiveTab("insights")}
-        >
-          Insights
-        </button>
+        {["charts", "settings", "ai-recommendations", "trends", "insights"].map((tab) => (
+          <button
+            key={tab}
+            className={`py-2 px-4 rounded-md ${
+              activeTab === tab
+                ? "bg-revvyBlack text-revvyGreen"
+                : "text-revvyGreen border border-revvyGreen"
+            }`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab === "charts" && "Data charts"}
+            {tab === "settings" && "Settings"}
+            {tab === "ai-recommendations" && "AI Recommendations"}
+            {tab === "trends" && "Trends"}
+            {tab === "insights" && "Insights"}
+          </button>
+        ))}
       </div>
 
-      <div className="bg-revvyBlack text-white rounded-lg p-6 shadow-lg">
+      {/* Main Content */}
+      <div className="bg-revvyBlack text-white rounded-lg p-6 shadow-lg space-y-6">
+        {/* Settings Tab */}
         {activeTab === "settings" && (
           <div>
             <h2 className="text-xl font-semibold mb-4">Settings</h2>
@@ -124,17 +105,18 @@ const DashboardPage = () => {
               </button>
             </form>
 
-            <div className="flex gap-4">
-              <button className="w-full py-2 px-4 bg-revvyBlack hover:bg-red-500 text-white rounded-md">
+            <div className="flex flex-wrap gap-4">
+              <button className="w-full sm:w-auto py-2 px-4 bg-revvyBlack hover:bg-red-500 text-white rounded-md">
                 Delete Account
               </button>
-              <button className="w-full py-2 px-4 bg-revvyBlack text-white rounded-md">
+              <button className="w-full sm:w-auto py-2 px-4 bg-revvyBlack text-white rounded-md">
                 Invite User
               </button>
             </div>
           </div>
         )}
 
+        {/* AI Recommendations Tab */}
         {activeTab === "ai-recommendations" && (
           <div>
             <h2 className="text-xl font-semibold mb-4">AI Recommendations</h2>
@@ -145,6 +127,14 @@ const DashboardPage = () => {
           </div>
         )}
 
+        {/* Data Charts Tab */}
+        {activeTab === "charts" && (
+          <div className="">
+            <SalesDashboard />
+          </div>
+        )}
+
+        {/* Trends Tab */}
         {activeTab === "trends" && (
           <div>
             <h2 className="text-xl font-semibold mb-4">Trends</h2>
@@ -153,6 +143,7 @@ const DashboardPage = () => {
           </div>
         )}
 
+        {/* Insights Tab */}
         {activeTab === "insights" && (
           <div>
             <h2 className="text-xl font-semibold mb-4">Insights</h2>
